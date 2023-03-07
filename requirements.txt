@@ -13,12 +13,17 @@ cryptography==38.0.1
 distlib==0.3.5
 fake-winreg==1.6.2.2
 filelock==3.8.0
+Flask==2.2.3
 funcsigs==1.0.2
 future==0.18.2
+gunicorn==20.1.0
 idna==3.4
+itsdangerous==2.1.2
+Jinja2==3.1.2
 lib-detect-testenv==2.0.2.2
 lib-platform==1.2.7
 lib-registry==2.0.7
+MarkupSafe==2.1.2
 numpy==1.23.1
 packaging==21.3
 pandas==1.4.3
@@ -48,4 +53,5 @@ toolz==0.12.0
 urllib3==1.26.12
 userpath==1.8.0
 virtualenv==20.16.5
+Werkzeug==2.2.3
 wrapt==1.14.1
