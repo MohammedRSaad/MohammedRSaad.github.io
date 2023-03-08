@@ -5,21 +5,23 @@ from flask import Flask, request, render_template
 from keras.models import load_model
 from pathlib import Path
 
-#THIS_FOLDER = Path(__file__).parent.resolve()
-#print(THIS_FOLDER)
-
 app = Flask(__name__)
-#model = load_model(str(THIS_FOLDER / "models/model.h5"))
+
+THIS_FOLDER = Path(__file__).parent.resolve()
+model = load_model(str(THIS_FOLDER / "models/model.h5"))
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-'''@app.route('/predict',methods=['POST'])
+@app.route('/predict',methods=['POST'])
 def predict():
-    int_features = [float(x) for x in request.form.values()] #Convert string inputs to float.
+    inputs = [float(x) for x in request.form.values()]
+    inputs.insert(2, inputs[0]/((inputs[1]/100)*(inputs[1]/100)))
+    inputs.insert(10, (inputs[4]+inputs[5]+inputs[6]+inputs[7]+inputs[8]+inputs[9])/6)
+    
     features = ['BMXWT', 'BMXHT', 'BMXBMI', 'RIDAGEYR', 'MGXH1T1', 'MGXH2T1', 'MGXH1T2', 'MGXH2T2', 'MGXH1T3', 'MGXH2T3', 'MGDCGSZ', 'RIAGENDR']
-    x = pd.DataFrame([int_features], columns=features);
+    x = pd.DataFrame([inputs], columns=features);
 
     numiric_cols = ['BMXWT', 'BMXHT', 'BMXBMI', 'RIDAGEYR', 'MGXH1T1', 'MGXH2T1', 'MGXH1T2', 'MGXH2T2', 'MGXH1T3', 'MGXH2T3', 'MGDCGSZ']
     scaler = preprocessing.StandardScaler().fit(x[numiric_cols])
@@ -29,10 +31,9 @@ def predict():
     x_scaled
 
     prediction = model.predict(x)
-    output = prediction[0]
-    print(output)
+    output = prediction[0][0]
 
     return render_template('index.html', prediction_text='Percent with osteoporosis is {}'.format(output))
-'''
-#if __name__ == '__main__':
-#   app.run(debug = True)
+
+if __name__ == '__main__':
+   app.run(debug = True)
