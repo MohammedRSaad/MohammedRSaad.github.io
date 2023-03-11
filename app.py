@@ -10,11 +10,11 @@ app = Flask(__name__)
 THIS_FOLDER = Path(__file__).parent.resolve()
 model = load_model(str(THIS_FOLDER / "models/model.h5"))
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
 
-@app.route('/predict',methods=['POST'])
+@app.route('/predict', methods=['GET', 'POST'])
 def predict():
     inputs = [float(x) for x in request.form.values()]
     
