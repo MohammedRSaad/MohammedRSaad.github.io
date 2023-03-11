@@ -11,14 +11,15 @@ THIS_FOLDER = Path(__file__).parent.resolve()
 model = load_model(str(THIS_FOLDER / "models/model.h5"))
 
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
 
 @app.route('/predict',methods=['POST'])
 def predict():
     inputs = [float(x) for x in request.form.values()]
+    
     inputs.insert(2, inputs[0]/((inputs[1]/100)*(inputs[1]/100)))
-    inputs.insert(10, (inputs[4]+inputs[5]+inputs[6]+inputs[7]+inputs[8]+inputs[9])/6)
+    inputs.insert(10, max(inputs[4], inputs[6], inputs[8]) + max(inputs[5], inputs[7], inputs[9]))
    
     features = ['BMXWT', 'BMXHT', 'BMXBMI', 'RIDAGEYR', 'MGXH1T1', 'MGXH2T1', 'MGXH1T2', 'MGXH2T2', 'MGXH1T3', 'MGXH2T3', 'MGDCGSZ', 'RIAGENDR']
     x = pd.DataFrame([inputs], columns=features);
